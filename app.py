@@ -356,7 +356,7 @@ else:
     
     st.header(f"✨ {my_character['title']}")
     st.write("")
-    
+    st.image(f"{secret_result}.png")
     st.markdown("### 📜 Story")
     st.write(my_character['story'])
     st.write("---")
