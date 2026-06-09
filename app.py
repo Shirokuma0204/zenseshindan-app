@@ -1,5 +1,15 @@
 import streamlit as st
 
+import urllib.parse
+import streamlit.components.v1 as components
+components.html(
+    """
+    <script>
+        window.parent.document.querySelector('.main').scrollTo(0, 0);
+    </script>
+    """,
+    height=0
+)
 # --- 1. 初期設定 ---
 if 'current_q' not in st.session_state:
     st.session_state.current_q = 0
@@ -374,3 +384,24 @@ else:
     if st.button("最初からやり直す"):
         st.session_state.clear()
         st.rerun()
+
+    st.markdown("### 📸 Instagramでもシェア！")
+    st.write("結果のイラストをスクショして、ストーリーズでみんなに教えてあげよう！✨")
+    st.write("---")
+    st.subheader("結果を友達にシェアする！")
+
+# シェアする文章とURLを準備
+app_url = "https://zenseshindan-app-rtswobqoup7u63px365igk.streamlit.app/" 
+share_text = f"私の前世は【{my_character['title']}】でした！みんなも診断してみてね✨\n"
+
+# SNS用に文字化け防止の変換をする
+safe_text = urllib.parse.quote(share_text)
+x_url = f"https://twitter.com/intent/tweet?text={safe_text}&url={app_url}"
+line_url = f"https://line.me/R/msg/text/?{safe_text}%20{app_url}"
+
+# ボタンを横に並べて配置する
+col1, col2 = st.columns(2)
+with col1:
+    st.link_button("🐦 X (Twitter) でシェア", x_url)
+with col2:
+    st.link_button("💬 LINE でシェア", line_url)    
